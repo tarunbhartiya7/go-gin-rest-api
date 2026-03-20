@@ -11,7 +11,24 @@ type Event struct {
 	UserId      int       `json:"userId"`
 }
 
-var events = []Event{}
+var events = []Event{
+	{
+		ID:          1,
+		Name:        "Event 1",
+		Description: "Description 1",
+		Location:    "Location 1",
+		DateTime:    time.Now(),
+		UserId:      1,
+	},
+	{
+		ID:          2,
+		Name:        "Event 2",
+		Description: "Description 2",
+		Location:    "Location 2",
+		DateTime:    time.Now(),
+		UserId:      2,
+	},
+}
 
 func (e Event) Save() Event {
 	event := Event{
@@ -28,4 +45,32 @@ func (e Event) Save() Event {
 
 func GetAllEvents() []Event {
 	return events
+}
+
+func GetEventById(id int) Event {
+	for _, event := range events {
+		if event.ID == id {
+			return event
+		}
+	}
+	return Event{}
+}
+
+func UpdateEvent(id int, event Event) Event {
+	for i, e := range events {
+		if e.ID == id {
+			events[i] = event
+			return event
+		}
+	}
+	return Event{}
+}
+
+func DeleteEvent(id int) {
+	for i, e := range events {
+		if e.ID == id {
+			events = append(events[:i], events[i+1:]...)
+			return
+		}
+	}
 }
